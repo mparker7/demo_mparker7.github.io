@@ -1,39 +1,17 @@
 ---
-title: "Plotly Examples"
+title: "My first dashboard"
 output: 
-  html_document:
-    code_folding: hide
-    toc: true
-    toc_float: true
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
 ---
 
 ```{r setup, include=FALSE}
+library(flexdashboard)
 library(tidyverse)
 library(viridis)
 library(p8105.datasets)
 library(plotly)
-
-knitr::opts_chunk$set(
-	echo = TRUE,
-	warning = FALSE,
-	fig.width = 8, 
-  fig.height = 6,
-  out.width = "90%"
-)
-options(
-  ggplot2.continuous.colour = "viridis",
-  ggplot2.continuous.fill = "viridis"
-)
-scale_colour_discrete = scale_colour_viridis_d
-scale_fill_discrete = scale_fill_viridis_d
-theme_set(theme_minimal() + theme(legend.position = "bottom"))
-```
-
-
-## Let's make some plots
-
-```{r}
-data("nyc_airbnb")
 ```
 
 ```{r}
@@ -53,10 +31,21 @@ nyc_airbnb =
   sample_n(5000)
 ```
 
+
+Column {data-width=550}
+-----------------------------------------------------------------------
+
+### Chart A
+
 ```{r}
 nyc_airbnb %>% 
   plot_ly(x = ~lat, y = ~long, type = "scatter", mode = "markers", color = ~price, alpha = 0.5)
 ```
+
+Column {data-width=450}
+-----------------------------------------------------------------------
+
+### Chart B
 
 ```{r}
 nyc_airbnb %>% 
@@ -65,11 +54,12 @@ nyc_airbnb %>%
           colors = "Set2")
 ```
 
+### Chart C
+
 ```{r}
 nyc_airbnb %>% 
   count(neighbourhood) %>% 
   mutate(neighbourhood = fct_reorder(neighbourhood, n)) %>% 
-  plot_ly(x = ~neighbourhood, y = ~n, color = ~neighbourhood, type = "bar")
+  plot_ly(x = ~neighbourhood, y = ~n, type = "bar")
 ```
-
 
